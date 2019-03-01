@@ -1,0 +1,22 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#>.
+@prefix doap: <http://usefulinc.com/ns/doap#>.
+
+<https://github.com/LiamLombard/DS1.lv2>
+  a lv2:SimulatorPlugin;
+  lv2:binary <DS1.so>;
+  doap:name "Boss DS1 Simulation";
+  doap:license <http://usefulinc.com/doap/licenses/mit>;
+
+	lv2:port [
+		a lv2:AudioPort ,
+			lv2:InputPort ;
+		lv2:index 0 ;
+		lv2:symbol "in" ;
+		lv2:name "In"
+	] , [
+		a lv2:AudioPort ,
+			lv2:OutputPort ;
+		lv2:index 1 ;
+		lv2:symbol "out" ;
+		lv2:name "Out"
+] .
