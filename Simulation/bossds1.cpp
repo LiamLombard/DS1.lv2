@@ -16,7 +16,7 @@ int main()
   const double t_step = (double) 1/44100;
   const double f = 1000;
 
-  DS1 circuit(t_step, "res/nLUT9.csv");
+  DS1 circuit(t_step, "res/nLUT10.csv");
 
   std::ofstream myfile;
   myfile.open ("Analysis/data.csv");

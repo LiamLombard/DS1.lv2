@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <fstream>
 
 #include "DS1.h"
 
@@ -13,8 +14,8 @@ constexpr char URI[] = "https://github.com/LiamLombard/DS1.lv2";
 std::unique_ptr<DS1> ds1;
 
 constexpr float VOLTAGE_SCALE = 3.3;
-constexpr float CIRCUIT_IN_GAIN = 1*VOLTAGE_SCALE;
-constexpr float CIRCUIT_OUT_GAIN = 1;
+constexpr float CIRCUIT_IN_GAIN = 5*VOLTAGE_SCALE;
+constexpr float CIRCUIT_OUT_GAIN = 5;
 
 enum class PortIndex : uint8_t
 {
@@ -34,6 +35,7 @@ static LV2_Handle instantiate(const LV2_Descriptor* descriptor,
                               const char* bundle_path,
                               const LV2_Feature* const* features)
 {
+	ds1 = std::make_unique<DS1>((double)1/44100, std::string(getenv("HOME")) + "/.lv2/DS1.lv2/res/nLUT10.csv");
   Plugin* plugin = static_cast<Plugin*>(calloc(1, sizeof(plugin)));
 	return static_cast<LV2_Handle>(plugin);
 }
@@ -42,19 +44,19 @@ static void connect_port(LV2_Handle instance, uint32_t port, void* data)
 {
 	Plugin* plugin = static_cast<Plugin*>(instance);
 
-	switch (static_cast<PortIndex>(port)) {
-	case PortIndex::IN:
-		plugin->input = static_cast<const float*>(data);
-		break;
-	case PortIndex::OUT:
-		plugin->output = static_cast<float*>(data);
-		break;
-	}
+	switch (static_cast<PortIndex>(port))
+	{
+		case PortIndex::IN:
+			plugin->input = static_cast<const float*>(data);
+			break;
+		case PortIndex::OUT:
+			plugin->output = static_cast<float*>(data);
+			break;
+		}
 }
 
 static void activate(LV2_Handle instance)
 {
-  ds1 = std::make_unique<DS1>(1/44100, std::string(getenv("HOME")) + "/.lv2/DS1.lv2/res/nLUT.csv");
 }
 
 static void run(LV2_Handle instance, uint32_t n_samples)
@@ -65,7 +67,9 @@ static void run(LV2_Handle instance, uint32_t n_samples)
 
   for (uint32_t pos = 0; pos < n_samples; ++pos)
   {
-    output[pos] = CIRCUIT_OUT_GAIN*static_cast<float>(ds1->CalcV(CIRCUIT_IN_GAIN*input[pos]));
+		const double circuitIn = CIRCUIT_IN_GAIN*input[pos];
+		const float circuitOut = ds1->CalcVLUT(circuitIn);
+    output[pos] = CIRCUIT_OUT_GAIN*circuitOut;
   }
 }
 

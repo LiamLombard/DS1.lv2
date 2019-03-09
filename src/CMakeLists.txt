@@ -23,6 +23,6 @@ target_link_libraries(bossds1 PRIVATE
 add_custom_command(TARGET bossds1
   DEPENDS ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E rename libbossds1_release.so DS1.so
+  COMMAND ${CMAKE_COMMAND} -E rename libbossds1.so DS1.so
   COMMAND ${CMAKE_COMMAND} -E copy DS1.so ../..
 )

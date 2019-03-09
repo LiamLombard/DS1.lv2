@@ -6,6 +6,7 @@ t_step(tt_step),
 lookup(fileName)
 { }
 
+
 double DS1::Gc(double C)
 {
   return C/t_step;
@@ -61,17 +62,17 @@ std::array<double, C_SIZE> DS1::CalcLinCurrents(const double vin)
 {
   return { 0,
           -Ic(v_last[1]-v_last[2], C1),
-           Ic(v_last[1]-v_last[2], C1) - Ic(v_last[2], C2) - Ic(v_last[2]-v_last[3], C3),
-           Ic(v_last[2]-v_last[3], C3),
+          Ic(v_last[1]-v_last[2], C1) - Ic(v_last[2], C2) - Ic(v_last[2]-v_last[3], C3),
+          Ic(v_last[2]-v_last[3], C3),
           -Ic(v_last[4], C4),
-           0,
-           0,
+          0,
+          0,
           -vin};
 }
 
 double DS1::CalcV(const double vin)
 {
-  const auto Il = CalcLinCurrents(vin);
+  const std::array<double, C_SIZE> Il = CalcLinCurrents(vin);
   const std::array<double, C_SIZE> I = StampDiodeCurrents(Il);
   const double gd = Gd(-v_last[2]) + Gd(v_last[2]);
   return GaussianEllimination(I, gd);
@@ -87,8 +88,9 @@ std::array<double, C_SIZE> DS1::StampDiodeCurrentsLUT(std::array<double, C_SIZE>
 double DS1::CalcVLUT(const double vin)
 {
   const auto params = lookup.lookup(static_cast<float>(v_last[2]));
-  const auto Il = CalcLinCurrents(vin);
+  const std::array<double, C_SIZE> Il = CalcLinCurrents(vin);
   const std::array<double, C_SIZE> I = StampDiodeCurrentsLUT(Il, params[2]);
   const double gd = params[1];
-  return GaussianEllimination(I, gd);
+  const double ans = GaussianEllimination(I, gd);
+  return ans;
 }

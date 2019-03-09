@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <array>
+#include <fstream>
 #include "LUT.h"
 
 constexpr std::size_t C_SIZE = 8;
@@ -15,6 +16,7 @@ class DS1
     const double C3 = 0.022E-6;
     const double C4 = 0.1E-6;
     const double t_step;
+    std::ofstream logger;
 
     LUT lookup;
 
