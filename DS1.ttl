@@ -19,4 +19,31 @@
 		lv2:index 1 ;
 		lv2:symbol "out" ;
 		lv2:name "Out"
+	] , [
+		a lv2:InputPort ,
+			lv2:ControlPort ;
+		lv2:index 2 ;
+		lv2:symbol "inGain" ;
+		lv2:name "Input Gain" ;
+		lv2:default 1.0 ;
+		lv2:minimum -10.0 ;
+		lv2:maximum 10.0
+	] , [
+		a lv2:InputPort ,
+			lv2:ControlPort ;
+		lv2:index 3 ;
+		lv2:symbol "outGain" ;
+		lv2:name "Output Gain" ;
+		lv2:default 1.0 ;
+		lv2:minimum -10.0 ;
+		lv2:maximum 10.0
+	] , [
+		a lv2:InputPort ,
+			lv2:ControlPort ;
+		lv2:index 4 ;
+		lv2:symbol "voltScale" ;
+		lv2:name "Voltage Scaling" ;
+		lv2:default 3.3 ;
+		lv2:minimum -10.0 ;
+		lv2:maximum 10.0
 ] .
