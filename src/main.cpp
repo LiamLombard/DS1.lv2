@@ -12,7 +12,6 @@
 
 constexpr char URI[] = "https://github.com/LiamLombard/DS1.lv2";
 std::unique_ptr<DS1> ds1;
-std::ofstream logger;
 
 enum class PortIndex : uint8_t
 {
@@ -77,14 +76,14 @@ static void run(LV2_Handle instance, uint32_t n_samples)
 
 	const float* const input  = plugin->input;
 	float* const output = plugin->output;
-	const float IN_GAIN  = *plugin->inGain;
-	const float OUT_GAIN  = *plugin->outGain;
-	const float VOLTAGE_SCALE  = *plugin->voltScale;
+	const float IN_GAIN  = *(plugin->inGain);
+	const float OUT_GAIN  = *(plugin->outGain);
+	const float VOLTAGE_SCALE  = *(plugin->voltScale);
 
 
   for (uint32_t pos = 0; pos < n_samples; ++pos)
   {
-		const double circuitIn = VOLTAGE_SCALE*IN_GAIN*input[pos];
+		const double circuitIn = static_cast<double>(VOLTAGE_SCALE*IN_GAIN*input[pos]);
 		const float circuitOut = static_cast<float>(ds1->CalcVLUT(circuitIn));
     output[pos] = OUT_GAIN*circuitOut;
   }

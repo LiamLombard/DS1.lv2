@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.7.0)
 project(bossds1.lv2 VERSION 0.1.0)
 
 

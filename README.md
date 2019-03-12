@@ -1,5 +1,5 @@
-# Transform.lv2
-Applies a transformation based on the lookuptable seen in transform.csv.
+# DS1.lv2
+Simulates a Boss DS1 distortion pedal.
 
 
 ## Notes
