@@ -85,7 +85,7 @@ static void run(LV2_Handle instance, uint32_t n_samples)
   {
 		const double circuitIn = static_cast<double>(VOLTAGE_SCALE*IN_GAIN*input[pos]);
 		const float circuitOut = static_cast<float>(ds1->CalcVLUT(circuitIn));
-    output[pos] = OUT_GAIN*circuitOut;
+    output[pos] = (OUT_GAIN/VOLTAGE_SCALE)*circuitOut;
   }
 }
 
