@@ -9,4 +9,5 @@ LUT = csvread("../res/nLUT.csv");
 % dlmwrite('nLUT7.csv', LUT([1:20:end],:), 'delimiter', ',', 'precision', 16);
 % dlmwrite('nLUT8.csv', LUT([1:50:end],:), 'delimiter', ',', 'precision', 16);
 % dlmwrite('nLUT9.csv', LUT([1:100:end],:), 'delimiter', ',', 'precision', 16);
-dlmwrite('../res/nLUT10.csv', LUT([1:1000:end],:), 'delimiter', ',', 'precision', 16);
+% dlmwrite('../res/nLUT10.csv', LUT([1:1000:end],:), 'delimiter', ',', 'precision', 16);
+dlmwrite('../res/nLUT11.csv', LUT([1:2000:end],:), 'delimiter', ',', 'precision', 16);
