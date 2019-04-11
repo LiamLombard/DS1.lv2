@@ -6,9 +6,10 @@ clear all
 % works much better with 0.001ms than 0.01ms timestep...
 t_step = 1/44100;
 f = 1000;
-Vin = 3.3*csvread('input.txt');
+time_span = 0:t_step:5e-3
+% Vin = 3.3*csvread('input.txt');
+Vin = -3.3*sin(2*pi*f*(time_span));
 V = zeros(8, length(Vin));
-% Vin = -3.3*sin(2*pi*f*(time_span));
 
 % Filling Circuit struct with useful info
 circuit.t_step = t_step;
@@ -47,8 +48,10 @@ circuit.Gc4 = Gc(circuit.C4, circuit.t_step);
 % Linear conductance matrix (diodes counted later)
 circuit.G = CalcLinG(circuit);
 
+no=1
+
 % Lookup table matrix
-circuit.LUT = csvread("../res/nLUT9.csv");
+circuit.LUT = csvread("../res/nLUT"+no+".csv");
 
 % Simulation loop
 for n = 1:length(Vin)-1
@@ -56,8 +59,7 @@ for n = 1:length(Vin)-1
   V(:, n+1) = IterateV(V(:, n), Il, circuit);
 end
 
-plot(time_span, Vin, time_span, V(7, :));
-axis([0 5e-3 -4 4])
+dlmwrite('../res/LUT' + no + 'output.csv', [time_span; V(7, :)]', 'delimiter', ',', 'precision', 16);
 
 function v_next = IterateV(v_last, Il, cir)
   [gd, ieq] = lookup(v_last(3), cir.LUT);
